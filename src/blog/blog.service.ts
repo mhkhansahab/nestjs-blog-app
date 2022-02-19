@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Blog } from "./blogs.model";
+import { Blog } from "./blog.model";
 import { Model } from "mongoose";
 
 @Injectable()
