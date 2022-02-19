@@ -2,7 +2,6 @@ import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/co
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from "src/user/user.service";
-import constants from "src/constants";
 
 @Injectable()
 export class AuthService {
@@ -66,15 +65,39 @@ export class AuthService {
     async validateToken(token: string) {
         try {
             const decoded = await this.jwtService.verify(token);
-            return{
-                success: true,
-                message: 'Successfully Authorized',
-                id: decoded?.id
+            if(decoded){
+                return{
+                    success: true,
+                    message: 'Successfully Authorized',
+                    id: decoded?.id
+                }
+            }else{
+                return {
+                    success: false,
+                    message: 'Cannot Be Authorized'
+                }    
             }
+            
         } catch (e) {
             return {
                 success: false,
                 message: 'Cannot Be Authorized'
+            }
+        }
+    }
+
+    async refreshToken(id:string){
+        const access_token = await this.jwtService.signAsync({ id });
+        if(access_token){
+            return {
+                success: true,
+                message: 'Token Updated Succesfully!',
+                access_token
+            }
+        }else{
+            return {
+                success: false,
+                message: 'Token Cannot Be Updated',
             }
         }
     }

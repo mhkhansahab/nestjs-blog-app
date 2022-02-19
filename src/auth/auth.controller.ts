@@ -35,9 +35,14 @@ export class AuthController {
         }
     }
 
-    @Get()
+    @Get('/validate')
     getValidate(@Headers('Authorization') authToken:string){
         return this.authService.validateToken(authToken);
+    }
+
+    @Get('/refresh')
+    getRefreshToken(@Headers('Authorization') authToken:string){
+        return this.authService.refreshToken(authToken);
     }
 
 }

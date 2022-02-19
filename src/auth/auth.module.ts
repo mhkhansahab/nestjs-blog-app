@@ -12,6 +12,7 @@ import { AuthService } from "./auth.service.js";
         signOptions: { expiresIn: '3600s' },
     })],
     providers: [AuthService],
-    controllers: [AuthController]
+    controllers: [AuthController],
+    exports: [AuthService]
 })
 export class AuthModule { }
