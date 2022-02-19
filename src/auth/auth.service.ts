@@ -57,7 +57,7 @@ export class AuthService {
         } catch (e) {
             return {
                 success: false,
-                message: 'User Cannot Be Created.'
+                message: 'User Cannot Login.'
             }
         }
     }
