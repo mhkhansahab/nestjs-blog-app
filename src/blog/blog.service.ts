@@ -16,6 +16,15 @@ export class BlogsService {
         }
     }
 
+    async getMyAllBlogs(id: string) {
+        try {
+            const result = await this.blogModel.find({ authorId: id })
+            return result;
+        } catch {
+            throw new NotFoundException('Cannot find any blog');
+        }
+    }
+
     async getBlog(id: string) {
         try {
             const result = await this.blogModel.findById({ _id: id })
@@ -25,9 +34,9 @@ export class BlogsService {
         }
     }
 
-    async createBlog(title: string, description: string, author: string) {
+    async createBlog(title: string, description: string, author: string, authorId: string) {
         try {
-            const blog = new this.blogModel({ title, description, author });
+            const blog = new this.blogModel({ title, description, author , authorId});
             const result = await blog.save();
             return result;
         } catch {
