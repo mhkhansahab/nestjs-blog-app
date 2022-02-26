@@ -21,6 +21,7 @@ export class AuthService {
                 return {
                     success: true,
                     message: 'User Created Succesfully!',
+                    user: user,
                     access_token
                 }
             } else {
@@ -45,6 +46,7 @@ export class AuthService {
                 return {
                     success: true,
                     message: 'User Authenticated Succesfully!',
+                    user: user,
                     access_token
                 }
             } else {
