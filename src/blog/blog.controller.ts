@@ -14,6 +14,28 @@ export class BlogsController {
         return this.blogsService.getAllBlogs();
     }
 
+    @Get('/me/:id')
+    async getMyBlogs(
+        @Param('id') id: string,
+        @Headers('Authorization') authToken: string
+    ) {
+        const response = await this.authService.validateToken(authToken);
+
+        if (response?.success) {
+        const result = await this.blogsService.getMyAllBlogs(id);
+        return {
+            success: true,
+            message: 'Blogs Getted Successfully',
+            data: result
+        };
+    }else{
+        return {
+            success: false,
+            message: 'Unauthorized User!'
+        };
+    }
+    }
+
     @Get(':id')
     getBlog(
         @Param('id') id: string
@@ -29,17 +51,25 @@ export class BlogsController {
         @Headers('Authorization') authToken: string
     ) {
         const response = await this.authService.validateToken(authToken);
+
         if (response?.success) {
-            const blog = await this.blogsService.createBlog(title, description, author);
+            const authorId = response?.id;
+            const blog = await this.blogsService.createBlog(title, description, author, authorId);
             return {
                 success: true,
                 message: 'Blog Created Successfully',
-                data: blog
+                data: {
+                    title: blog?.title,
+                    description: blog?.description,
+                    id: blog?._id,
+                    author: blog?.author,
+                    authorId:blog?.authorId
+                }
             }
         } else {
             return {
                 success: false,
-                message: 'Blog Cannot Be Created',
+                message: 'Unauthorized User!',
             }
         }
     }
@@ -58,12 +88,18 @@ export class BlogsController {
             return {
                 success: true,
                 message: 'Blog Updated Successfully',
-                data: blog
+                data: {
+                    title: blog?.title,
+                    description: blog?.description,
+                    id: blog?._id,
+                    author: blog?.author,
+                    authorId: response?.id
+                }
             }
         } else {
             return {
                 success: false,
-                message: 'Blog Cannot Be Updated',
+                message: 'Unauthorized User!',
             }
         }
     }
@@ -79,12 +115,18 @@ export class BlogsController {
             return {
                 success: true,
                 message: 'Blog Deleted Successfully',
-                data: blog
+                data: {
+                    title: blog?.title,
+                    description: blog?.description,
+                    id: blog?._id,
+                    author: blog?.author,
+                    authorId: response?.id
+                }
             }
         } else {
             return {
                 success: false,
-                message: 'Blog Cannot Be Deleted',
+                message: 'Unauthorized User!',
             }
         }
     }

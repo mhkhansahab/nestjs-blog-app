@@ -12,6 +12,10 @@ export const blogSchema = new mongoose.Schema({
     author: {
         type: String,
         required: true,
+    },
+    authorId: {
+        type: String,
+        required: true,
     }
 }, { timestamps: true });
 
@@ -20,4 +24,5 @@ export interface Blog extends mongoose.Document {
     title: string,
     description: string,
     author: string,
+    authorId: string
 }

@@ -17,11 +17,16 @@ export class AuthService {
         try {
             const user = await this.userService.createUser(name, hashedPassword, email);
             if (user) {
-                const access_token = await this.jwtService.signAsync({ id: user?._id })
+                const access_token = await this.jwtService.signAsync({ id: user?._id });
+                const updated = {
+                    name: user?.name,
+                    email : user?.email,
+                    id: user?._id
+                };
                 return {
                     success: true,
                     message: 'User Created Succesfully!',
-                    user: user,
+                    user: updated,
                     access_token
                 }
             } else {
@@ -43,10 +48,15 @@ export class AuthService {
             const user = await this.userService.findUser(email, password);
             if (user) {
                 const access_token = await this.jwtService.signAsync({ id: user?._id })
+                const updated = {
+                    name: user?.name,
+                    email : user?.email,
+                    id: user?._id
+                }
                 return {
                     success: true,
                     message: 'User Authenticated Succesfully!',
-                    user: user,
+                    user: updated,
                     access_token
                 }
             } else {
