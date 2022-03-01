@@ -8,7 +8,7 @@ import { AuthService } from "./auth.service.js";
 @Module({
     imports: [UserModule,  ConfigModule.forRoot(), JwtModule.register({
         secret: process.env.JWT_SECRET,
-        signOptions: { expiresIn: '3600s' },
+        signOptions: { expiresIn: '24h' },
     })],
     providers: [AuthService],
     controllers: [AuthController],
